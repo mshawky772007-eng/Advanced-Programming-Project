@@ -187,7 +187,7 @@
   <div class="container">
     <p class="section-label">Overview</p>
     <h2 class="section-title">What is this project?</h2>
-    <p class="section-desc">This project simulates a real-world pencil manufacturing production line as part of the Applied Mechatronics Advanced Programming module at SRH Fernhochschule. The simulation models four sequential assembly stages, applies probabilistic defect detection at each stage, streams all metrics to InfluxDB, and visualises them in both a custom HMI and a Grafana dashboard.</p>
+    <p class="section-desc">This project simulates a real-world pencil manufacturing production line as part of the Applied Mechatronics Advanced Programming module at SRH Berlin University of Applied Sciences. The simulation models four sequential assembly stages, applies probabilistic defect detection at each stage, streams all metrics to InfluxDB, and visualises them in both a custom HMI and a Grafana dashboard.</p>
 
     <div class="metrics">
       <div class="metric"><div class="metric-val" style="color:var(--orange)">4</div><div class="metric-label">Production stages</div></div>
@@ -245,7 +245,7 @@
     <p class="section-desc">The entire application runs as four Docker containers orchestrated by Docker Compose. Each container has a single, clearly-defined responsibility.</p>
     <div class="arch-grid">
       <div class="arch-card">
-        <div class="arch-icon" style="background:#EFF6FF">🐍</div>
+        <div class="arch-icon" style="background:#EFF6FF"></div>
         <h3>Flask Backend</h3>
         <p>REST API with production logic. Runs the defect model, writes metrics to InfluxDB.</p>
         <div class="arch-port">:5000 — pencil_backend</div>
@@ -257,13 +257,13 @@
         <div class="arch-port">:8086 — pencil_influxdb</div>
       </div>
       <div class="arch-card">
-        <div class="arch-icon" style="background:#FFF7F0">📊</div>
+        <div class="arch-icon" style="background:#FFF7F0"></div>
         <h3>Grafana 10.2</h3>
         <p>Auto-provisioned dashboard via bind-mounted provisioning folder. No manual setup needed.</p>
         <div class="arch-port">:3000 — pencil_grafana</div>
       </div>
       <div class="arch-card">
-        <div class="arch-icon" style="background:#F0FDF4">🌐</div>
+        <div class="arch-icon" style="background:#F0FDF4"></div>
         <h3>Nginx + HMI</h3>
         <p>Serves the static HTML/JS operator interface with Chart.js live charts.</p>
         <div class="arch-port">:80 — pencil_hmi</div>
