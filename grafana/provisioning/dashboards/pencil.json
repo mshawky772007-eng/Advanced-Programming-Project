@@ -1,0 +1,78 @@
+{
+  "title": "Pencil Production Line",
+  "uid": "pencil-prod",
+  "schemaVersion": 38,
+  "refresh": "5s",
+  "time": { "from": "now-15m", "to": "now" },
+  "panels": [
+    {
+      "id": 1, "type": "stat", "title": "Machine State",
+      "gridPos": { "x": 0, "y": 0, "w": 4, "h": 4 },
+      "targets": [{
+        "datasource": { "type": "influxdb" },
+        "query": "from(bucket: \"production\") |> range(start: -1m) |> filter(fn: (r) => r._measurement == \"production_metrics\" and r._field == \"running\") |> last()"
+      }]
+    },
+    {
+      "id": 2, "type": "stat", "title": "Total Produced",
+      "gridPos": { "x": 4, "y": 0, "w": 4, "h": 4 },
+      "targets": [{
+        "datasource": { "type": "influxdb" },
+        "query": "from(bucket: \"production\") |> range(start: -1h) |> filter(fn: (r) => r._measurement == \"production_metrics\" and r._field == \"produced\") |> last()"
+      }]
+    },
+    {
+      "id": 3, "type": "stat", "title": "Defective Units",
+      "gridPos": { "x": 8, "y": 0, "w": 4, "h": 4 },
+      "targets": [{
+        "datasource": { "type": "influxdb" },
+        "query": "from(bucket: \"production\") |> range(start: -1h) |> filter(fn: (r) => r._measurement == \"production_metrics\" and r._field == \"defective\") |> last()"
+      }]
+    },
+    {
+      "id": 4, "type": "gauge", "title": "Yield %",
+      "gridPos": { "x": 12, "y": 0, "w": 4, "h": 4 },
+      "options": { "minValue": 0, "maxValue": 100 },
+      "targets": [{
+        "datasource": { "type": "influxdb" },
+        "query": "from(bucket: \"production\") |> range(start: -1h) |> filter(fn: (r) => r._measurement == \"production_metrics\" and r._field == \"yield_pct\") |> last()"
+      }]
+    },
+    {
+      "id": 5, "type": "timeseries", "title": "Parts Produced Over Time",
+      "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "datasource": { "type": "influxdb" },
+          "query": "from(bucket: \"production\") |> range(start: -1h) |> filter(fn: (r) => r._measurement == \"production_metrics\" and r._field == \"good\") |> aggregateWindow(every: 5s, fn: last)"
+        },
+        {
+          "datasource": { "type": "influxdb" },
+          "query": "from(bucket: \"production\") |> range(start: -1h) |> filter(fn: (r) => r._measurement == \"production_metrics\" and r._field == \"defective\") |> aggregateWindow(every: 5s, fn: last)"
+        }
+      ]
+    },
+    {
+      "id": 6, "type": "timeseries", "title": "Stage Temperatures (°C)",
+      "gridPos": { "x": 12, "y": 4, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "datasource": { "type": "influxdb" },
+          "query": "from(bucket: \"production\") |> range(start: -1h) |> filter(fn: (r) => r._measurement == \"production_metrics\" and r._field == \"temp_stage1\") |> aggregateWindow(every: 5s, fn: mean)"
+        },
+        {
+          "datasource": { "type": "influxdb" },
+          "query": "from(bucket: \"production\") |> range(start: -1h) |> filter(fn: (r) => r._measurement == \"production_metrics\" and r._field == \"temp_stage2\") |> aggregateWindow(every: 5s, fn: mean)"
+        },
+        {
+          "datasource": { "type": "influxdb" },
+          "query": "from(bucket: \"production\") |> range(start: -1h) |> filter(fn: (r) => r._measurement == \"production_metrics\" and r._field == \"temp_stage3\") |> aggregateWindow(every: 5s, fn: mean)"
+        },
+        {
+          "datasource": { "type": "influxdb" },
+          "query": "from(bucket: \"production\") |> range(start: -1h) |> filter(fn: (r) => r._measurement == \"production_metrics\" and r._field == \"temp_stage4\") |> aggregateWindow(every: 5s, fn: mean)"
+        }
+      ]
+    }
+  ]
+}
